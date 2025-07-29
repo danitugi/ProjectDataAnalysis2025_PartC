@@ -2,114 +2,111 @@
  Flask-based web application for predicting apartment rental prices in Tel Aviv using machine learning. The model is trained on historical listings data and supports multiple apartment features as input.
 
 
-# 🏠 Tel Aviv Apartment Rent Price Predictor
+# 🤖 Real Estate Rent Price Predictor – Tel Aviv 🏙️  
+*Final Project – Data Analyst Course 2025 | Part 2*
 
-A Flask-based web application for predicting apartment rental prices in Tel Aviv–Yafo using a trained machine learning model.
+[![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Web-Framework-Flask-lightgrey?logo=flask)]
+[![scikit-learn](https://img.shields.io/badge/ML-scikit--learn-orange?logo=scikitlearn)]
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
-## 📁 Project Structure
+## 🧾 About the Project
+
+This repository contains Part 2 of the **final assignment** for the **Data Analyst Course (2025)**.
+
+In this stage, we develop and deploy a **machine learning model** that predicts rental prices for apartments in **Tel Aviv** using a selected subset of features from the cleaned dataset created in Part 1.
+
+The model is deployed via a **Flask web app**, where users can input apartment details and receive a rental price prediction.
+
+---
+
+## ⚙️ Key Features
+
+- Cleaned & preprocessed input data from `.xlsx` file
+- Feature selection based on relevance to price
+- Trained **Elastic Net** and **Tree-based** models for comparison
+- Final model serialized using `joblib`
+- Deployed via **Flask** backend + **HTML/CSS** frontend
+- Supports real-time rental price prediction via browser interface
+
+---
+
+## 📂 Project Structure
 
 ```
-flask_rent_app/
-├── api.py                  # Flask API for serving predictions
-├── model_training.py       # Script to preprocess data and train the model
-├── trained_model.pkl       # Serialized model (via joblib)
-├── train.xlsx              # Dataset for training
-├── requirements.txt        # Python dependencies
-└── templates/
-    └── index.html          # Web form UI
+├── api.py               # Flask backend logic (prediction API)
+├── model_training.py    # Model training & joblib export
+├── templates/
+│   └── index.html       # User interface (form & results)
+├── train.xlsx           # Input dataset
+├── trained_model.pkl    # Trained ML model
+└── README.md            # Project documentation
 ```
 
 ---
 
-## ⚙️ Technologies
+## 🧠 Features Used in the Model
 
-- Python 3.12+
-- Flask
-- pandas
-- scikit-learn
-- joblib
-- HTML5 / CSS3 (RTL)
+Only the following fields were used for prediction:
+
+| Feature               | Description                                 |
+|-----------------------|---------------------------------------------|
+| `property_type`       | Type of apartment                           |
+| `neighborhood`        | Neighborhood in Tel Aviv                    |
+| `room_num`            | Number of rooms                             |
+| `floor`               | Apartment floor                             |
+| `area`                | Size in square meters                       |
+| `garden_area`         | Garden size                                 |
+| `has_parking`         | Has parking (0/1)                           |
+| `has_storage`         | Has storage (0/1)                           |
+| `elevator`            | Has elevator (0/1), only relevant if `total_floors` > 2 |
+| `ac`                  | Has air conditioning (0/1)                  |
+| `handicap`            | Handicap accessible (0/1)                   |
+| `has_bars`            | Has bars on windows (0/1)                   |
+| `has_safe_room`       | Has protected room (0/1)                    |
+| `has_balcony`         | Has balcony (0/1)                           |
+| `is_furnished`        | Furnished (0/1)                             |
+| `is_renovated`        | Renovated (0/1)                             |
+| `distance_from_center`| Distance from city center (km)             |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 How to Run Locally
 
-### 1. Clone the repository
-
+1. Clone the repository  
 ```bash
-git clone https://github.com/your-username/flask_rent_app.git
-cd flask_rent_app
+git clone https://github.com/your-username/rent-predictor-tel-aviv.git
+cd rent-predictor-tel-aviv
 ```
 
-### 2. Create and activate a virtual environment
-
+2. Create a virtual environment and activate  
 ```bash
 python -m venv venv
-source venv/bin/activate         # On Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows use venv\Scripts\activate
 ```
 
-### 3. Install dependencies
-
+3. Install dependencies  
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Train the model (if not already trained)
-
+4. Train the model (optional)  
 ```bash
 python model_training.py
 ```
 
-This will create `trained_model.pkl`.
-
-### 5. Run the Flask app
-
+5. Run the web app  
 ```bash
 python api.py
 ```
 
-Then open your browser at:  
-[http://127.0.0.1:5000](http://127.0.0.1:5000)
+6. Open in your browser  
+Visit [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## 🧠 Features Used in Prediction
+## 📃 License
 
-The following features are used for rent prediction:
-
-- `property_type`
-- `neighborhood`
-- `room_num`
-- `floor`
-- `area`
-- `garden_area`
-- `has_parking`
-- `has_storage`
-- `elevator`
-- `ac`
-- `handicap`
-- `has_bars`
-- `has_safe_room`
-- `has_balcony`
-- `is_furnished`
-- `is_renovated`
-- `distance_from_center`
-
----
-
-## 🖥️ Web Interface
-
-- Clean, modern RTL (Hebrew) layout
-- Dropdowns for `property_type` and `neighborhood` based on dataset
-- Validated numeric fields (range, step)
-- Boolean checkboxes for additional features
-- Displays estimated rent after submission
-
----
-
-## 📄 License
-
-This project is provided for educational use only.  
-No commercial license or warranty provided.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
