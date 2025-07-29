@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תחזית לשכירות דירה</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.3) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        @keyframes morphBackground {
+             0%, 100% {
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.3) 0%, transparent 50%);
+            }
+            50% {
+                background: 
+                    radial-gradient(circle at 80% 20%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 80%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
+                    radial-gradient(circle at 60% 60%, rgba(120, 219, 226, 0.4) 0%, transparent 50%);
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+            animation: cardSlideIn 0.8s ease-out;
+        }
+
+        @keyframes cardSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .header {
+            padding: 60px 40px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(120, 119, 198, 0.2) 0%, rgba(255, 119, 198, 0.2) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            animation: headerShine 15s ease-in-out infinite;
+        }
+
+        @keyframes headerShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ff77c6, #7877c6, #78dbe2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-container {
+            padding: 60px 40px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 48px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 20px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            font-size: 1rem;
+            color: #ffffff;
+            font-family: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #78dbe2;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 4px rgba(120, 219, 226, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: left 16px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-left: 48px;
+        }
+
+        .input-unit {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        .input-with-unit input {
+            padding-left: 60px;
+        }
+
+        .icon {
+            margin-left: 8px;
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        .checkbox-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 48px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .checkbox-section h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 32px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .checkbox-item {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(5px);
+        }
+
+        .checkbox-item:hover {
+            background: rgba(120, 219, 226, 0.1);
+            border-color: rgba(120, 219, 226, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #78dbe2;
+            cursor: pointer;
+        }
+
+        .checkbox-item label {
+            cursor: pointer;
+            margin: 0;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff77c6, #7877c6);
+            color: white;
+            padding: 20px 60px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(255, 119, 198, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .prediction-result {
+            background: linear-gradient(135deg, #78dbe2, #7877c6);
+            color: white;
+            padding: 32px;
+            margin: 32px 0 0 0;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 600;
+            box-shadow: 0 20px 40px rgba(120, 219, 226, 0.3);
+            animation: resultSlideIn 0.6s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prediction-result::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: resultShine 2s ease-in-out infinite;
+        }
+
+        @keyframes resultSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes resultShine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px auto;
+                padding: 0 16px;
+            }
+            
+            .header {
+                padding: 40px 24px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-container {
+                padding: 40px 24px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-section {
+                padding: 24px;
+            }
+        }
+
+        /* Selection styling */
+        ::selection {
+            background: rgba(120, 219, 226, 0.3);
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(120, 219, 226, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(120, 219, 226, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <div class="header">
+                <h1>🏠 תחזית שכירות</h1>
+                <p>מערכת חיזוי להערכת מחירי שכירות</p>
+            </div>
+
+            <div class="form-container">
+                <form action="/predict" method="post">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="property_type">סוג הנכס <span class="icon">🏢</span></label>
+                            <div class="input-wrapper">
+                                <select name="property_type" id="property_type" required>
+                                    <option value="דירה">דירה</option>
+                                    <option value="דירת גן">דירת גן</option>
+                                    <option value="גג/פנטהאוז">גג/פנטהאוז</option>
+                                    <option value="דופלקס">דופלקס</option>
+                                    <option value="יחידת דיור">יחידת דיור</option>
+                                    <option value="סטודיו/לופט">סטודיו/לופט</option>
+                                    <option value="סאבלט">סאבלט</option>
+                                    <option value="מרתף/פרטר">מרתף/פרטר</option>
+                                    <option value="מחסן">מחסן</option>
+                                    <option value="חניה">חניה</option>
+                                    <option value="כללי">כללי</option>
+                                    <option value="בית פרטי/ קוטג'">בית פרטי/ קוטג'</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="neighborhood">שכונה <span class="icon">📍</span></label>
+                            <div class="input-wrapper">
+                                <select name="neighborhood" id="neighborhood" required>
+                                    <option value="------">------</option>
+				    <option value="אזורי חן">אזורי חן</option>
+                                    <option value="בית שטראוס">בית שטראוס</option>
+                                    <option value="בצרון">בצרון</option>
+                                    <option value="גבעת הרצל">גבעת הרצל</option>
+                                    <option value="הגוש הגדול">הגוש הגדול</option>
+                                    <option value="הדר יוסף">הדר יוסף</option>
+                                    <option value="הצפון החדש החלק הדרומי">הצפון החדש החלק הדרומי</option>
+                                    <option value="הצפון החדש החלק הצפוני">הצפון החדש החלק הצפוני</option>
+                                    <option value="הצפון החדש סביבת ככר המדינה">הצפון החדש סביבת ככר המדינה</option>
+                                    <option value="הצפון הישן החלק הדרום מזרחי">הצפון הישן החלק הדרום מזרחי</option>
+                                    <option value="הצפון הישן החלק הדרום מערבי">הצפון הישן החלק הדרום מערבי</option>
+                                    <option value="הצפון הישן החלק המרכזי">הצפון הישן החלק המרכזי</option>
+                                    <option value="הצפון הישן החלק הצפוני">הצפון הישן החלק הצפוני</option>
+                                    <option value="הקריה">הקריה</option>
+                                    <option value="התקווה">התקווה</option>
+                                    <option value="חוף הצוק">חוף הצוק</option>
+                                    <option value="יד אליהו">יד אליהו</option>
+                                    <option value="יפו ד">יפו ד</option>
+                                    <option value="כפיר">כפיר</option>
+                                    <option value="כרם התימנים">כרם התימנים</option>
+                                    <option value="לב תל אביב החלק הדרומי">לב תל אביב החלק הדרומי</option>
+                                    <option value="לב תל אביב החלק הצפוני">לב תל אביב החלק הצפוני</option>
+                                    <option value="לבנה">לבנה</option>
+                                    <option value="לינקולן">לינקולן</option>
+                                    <option value="מונטיפיורי">מונטיפיורי</option>
+                                    <option value="מע&quot;ר צפוני">מע"ר צפוני</option>
+                                    <option value="מרכז יפו מזרחית לשדרות ירושלים">מרכז יפו מזרחית לשדרות ירושלים</option>
+                                    <option value="נאות אפקה ב">נאות אפקה ב</option>
+                                    <option value="נוה אביבים">נוה אביבים</option>
+                                    <option value="נוה אליעזר">נוה אליעזר</option>
+                                    <option value="נוה ברבור">נוה ברבור</option>
+                                    <option value="נוה חן">נוה חן</option>
+                                    <option value="נוה שאנן">נוה שאנן</option>
+                                    <option value="נוה שרת">נוה שרת</option>
+                                    <option value="נחלת יצחק">נחלת יצחק</option>
+                                    <option value="עג'מי">עג'מי</option>
+                                    <option value="עזרא">עזרא</option>
+                                    <option value="פלורנטין">פלורנטין</option>
+                                    <option value="צפון יפו">צפון יפו</option>
+                                    <option value="קרית שלום">קרית שלום</option>
+                                    <option value="רביבים">רביבים</option>
+                                    <option value="רמת אביב ג">רמת אביב ג</option>
+                                    <option value="רמת אביב החדשה">רמת אביב החדשה</option>
+                                    <option value="רמת החייל">רמת החייל</option>
+                                    <option value="שבזי">שבזי</option>
+                                    <option value="שיכון בבלי">שיכון בבלי</option>
+                                    <option value="שיכון ותיקים">שיכון ותיקים</option>
+                                    <option value="שפירא">שפירא</option>
+                                    <option value="תל ברוך צפון">תל ברוך צפון</option>
+                                    <option value="תל חיים">תל חיים</option>
+                                    <option value="תל כביר">תל כביר</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="area">שטח הדירה <span class="icon">📐</span></label>
+                            <div class="input-wrapper input-with-unit">
+                                <span class="input-unit">מ"ר</span>
+                                <input type="number" name="area" id="area" min="0" max="500" step="5" value="75" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="garden_area">שטח גינה <span class="icon">🌿</span></label>
+                            <div class="input-wrapper input-with-unit">
+                                <span class="input-unit">מ"ר</span>
+                                <input type="number" name="garden_area" id="garden_area" min="0" max="150" step="5" value="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="room_num">מספר חדרים <span class="icon">🛏️</span></label>
+                            <div class="input-wrapper">
+                                <input type="number" name="room_num" id="room_num" min="1" max="10" step="0.5" value="3">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="floor">קומה <span class="icon">🏢</span></label>
+                            <div class="input-wrapper">
+                                <input type="number" name="floor" id="floor" min="0" max="50" step="1" value="0">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="distance_from_center">מרחק מהמרכז <span class="icon">🎯</span></label>
+                            <div class="input-wrapper input-with-unit">
+                                <span class="input-unit">ק"מ</span>
+                                <input type="number" name="distance_from_center" id="distance_from_center" min="0" max="15" step="0.5" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-section">
+                        <h3>✨ מאפיינים נוספים</h3>
+                        <div class="checkbox-grid">
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="has_parking" id="has_parking" value="1">
+                                <label for="has_parking">🚗 חניה</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="has_storage" id="has_storage" value="1">
+                                <label for="has_storage">📦 מחסן</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="elevator" id="elevator" value="1">
+                                <label for="elevator">🛗 מעלית</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="ac" id="ac" value="1">
+                                <label for="ac">❄️ מזגן</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="handicap" id="handicap" value="1">
+                                <label for="handicap">♿ מותאם לנכים</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="has_balcony" id="has_balcony" value="1">
+                                <label for="has_balcony">🏡 מרפסת</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" name="is_furnished" id="is_furnished" value="1">
+                                <label for="is_furnished">🪑 מרוהט</label>
+                            </div>
+			    <div class="checkbox-item">
+			        <input type="checkbox" name="has_bars" id="has_bars" value="1">
+			        <label for="has_bars">🔐 סורגים</label>
+			    </div>
+			    <div class="checkbox-item">
+			        <input type="checkbox" name="has_safe_room" id="has_safe_room" value="1">
+			        <label for="has_safe_room">🛡️ ממ"ד</label>
+			    </div>
+			    <div class="checkbox-item">
+        <input type="checkbox" name="is_renovated" id="is_renovated" value="1">
+        <label for="is_renovated">🔧 משופץ</label>
+			    </div>
+                        </div>
+                    </div>
+
+                    <div class="submit-container">
+                        <button type="submit" class="submit-btn">🔍 חשב</button>
+                    </div>
+
+                    {% if prediction %}
+                    <div class="prediction-result">
+                        💰 הערכת מחיר שכירות: {{ prediction }} ש"ח
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
