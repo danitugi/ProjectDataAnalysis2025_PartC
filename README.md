@@ -2,11 +2,10 @@
  Flask-based web application for predicting apartment rental prices in Tel Aviv using machine learning. The model is trained on historical listings data and supports multiple apartment features as input.
 
 
-# 🤖 Real Estate Rent Price Predictor – Tel Aviv 🏙️  
-*Final Project – Data Analyst Course 2025 | Part 2*
+# Real Estate Rent Price Predictor – Tel Aviv 🏙️  
+*Final Project – Data Analyst Course 2025 | Part 3*
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue?logo=python)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Web-Framework-Flask-lightgrey?logo=flask)]
 [![scikit-learn](https://img.shields.io/badge/ML-scikit--learn-orange?logo=scikitlearn)]
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -14,7 +13,7 @@
 
 ## 🧾 About the Project
 
-This repository contains Part 2 of the **final assignment** for the **Data Analyst Course (2025)**.
+This repository contains Part 3 of the **final assignment** for the **Data Analyst Course (2025)**.
 
 In this stage, we develop and deploy a **machine learning model** that predicts rental prices for apartments in **Tel Aviv** using a selected subset of features from the cleaned dataset created in Part 1.
 
